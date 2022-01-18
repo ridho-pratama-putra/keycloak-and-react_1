@@ -1,3 +1,4 @@
+// called on every dispatch call
 export const sayHiOnDispatch = (createStore) => {
     return (rootReducer, preloadedState, enhancers) => {
         const store = createStore(rootReducer, preloadedState, enhancers)
@@ -12,10 +13,10 @@ export const sayHiOnDispatch = (createStore) => {
     }
 }
 
+// called once
 export const includeMeaningOfLife = (createStore) => {
     return (rootReducer, preloadedState, enhancers) => {
         const store = createStore(rootReducer, preloadedState, enhancers)
-        console.log('includeMeaningOfLife')
         function newGetState() {
             return {
                 ...store.getState(),
