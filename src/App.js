@@ -103,7 +103,7 @@ function App() {
                                       onClose={handleCloseUserMenu}>
                                     {settings.map((setting) => {
                                             if (equalsIgnoreCase(setting, 'Logout')) {
-                                                return (<MenuItem key={setting} onClick={handleCloseNavMenu}>
+                                                return (<MenuItem key={setting} onClick={() => keycloak.logout()}>
                                                     <Typography
                                                         textAlign="center">{capitalFirstLetter(setting)}</Typography>
                                                 </MenuItem>)
