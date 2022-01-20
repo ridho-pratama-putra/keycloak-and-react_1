@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, {useState} from "react";
+import React, { useState } from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,13 +16,18 @@ import MenuItem from '@mui/material/MenuItem';
 import {
     BrowserRouter
     , Link
+    , Routes
+    , Route
 } from "react-router-dom";
 import {capitalFirstLetter, equalsIgnoreCase} from "./utils/Strings";
 import { useKeycloak } from '@react-keycloak/web'
+import Products from './components/Products/products'
+import Blog from './components/Blog/blog'
+import Pricing from './components/Pricing/pricing'
 
 function App() {
 
-    const { keycloak } = useKeycloak();
+    const {keycloak} = useKeycloak();
     const pages = ['home', 'products', 'pricing', 'blog'];
     const settings = ['profile', 'account', 'dashboard', 'logout'];
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -44,38 +49,40 @@ function App() {
     };
 
     return (
-        <AppBar position="static" sx={{
-            background: 'linear-gradient(45deg, #0c6ff5 30%, #83b8eb 90%)',
-            border: 0
-        }}>
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    {/*<Typography variant="h6" noWrap component="div" sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}> LOGO </Typography>*/}
-                    <img style={{width: '40px', height: 'auto'}} src={logo} className="App-logo" alt="logo"/>
+        <BrowserRouter>
 
-                    <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
-                        <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar"
-                                    aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
-                            <MenuIcon/>
-                        </IconButton>
-                        <Menu id="menu-appbar" anchorEl={anchorElNav}
-                              anchorOrigin={{vertical: 'bottom', horizontal: 'left',}} keepMounted
-                              transformOrigin={{vertical: 'top', horizontal: 'left',}} open={Boolean(anchorElNav)}
-                              onClose={handleCloseNavMenu} sx={{display: {xs: 'block', md: 'none'},}}>
-                            <BrowserRouter>
+            <AppBar position="static" sx={{
+                background: 'linear-gradient(45deg, #0c6ff5 30%, #83b8eb 90%)',
+                border: 0
+            }}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        {/*<Typography variant="h6" noWrap component="div" sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}> LOGO </Typography>*/}
+                        <img style={{width: '40px', height: 'auto'}} src={logo} className="App-logo" alt="logo"/>
+
+                        {/*mobile menus*/}
+                        <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
+                            <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar"
+                                        aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
+                                <MenuIcon/>
+                            </IconButton>
+                            <Menu id="menu-appbar" anchorEl={anchorElNav}
+                                  anchorOrigin={{vertical: 'bottom', horizontal: 'left',}} keepMounted
+                                  transformOrigin={{vertical: 'top', horizontal: 'left',}} open={Boolean(anchorElNav)}
+                                  onClose={handleCloseNavMenu} sx={{display: {xs: 'block', md: 'none'},}}>
                                 {pages.map((page) => (
                                     <MenuItem key={page} onClick={handleCloseNavMenu} component={Link}
                                               to={`/${equalsIgnoreCase(page, 'Home') ? '' : page}`}>
                                         <Typography textAlign="center">{capitalFirstLetter(page)}</Typography>
                                     </MenuItem>
                                 ))}
-                            </BrowserRouter>
-                        </Menu>
-                    </Box>
-                    <Typography variant="h6" noWrap component="div"
-                                sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}> LOGO </Typography>
-                    <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-                        <BrowserRouter>
+                            </Menu>
+                        </Box>
+                        <Typography variant="h6" noWrap component="div"
+                                    sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}> LOGO </Typography>
+
+                        {/*web menus*/}
+                        <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                             {pages.map((page) => (
                                 <Button component={Link} to={`/${equalsIgnoreCase(page, 'Home') ? '' : page}`}
                                         key={page} sx={{
@@ -84,11 +91,9 @@ function App() {
                                     display: 'block'
                                 }}>{capitalFirstLetter(page)}</Button>
                             ))}
-                        </BrowserRouter>
-                    </Box>
+                        </Box>
 
-                    <Box sx={{flexGrow: 0}}>
-                        <BrowserRouter>
+                        <Box sx={{flexGrow: 0}}>
                             {keycloak && keycloak.authenticated &&
                             <>
                                 <Tooltip title="Open settings">
@@ -110,7 +115,8 @@ function App() {
                                             }
                                             return (<MenuItem key={setting} component={Link}
                                                               to={`/${setting}`}>
-                                                <Typography textAlign="center">{capitalFirstLetter(setting)}</Typography>
+                                                <Typography
+                                                    textAlign="center">{capitalFirstLetter(setting)}</Typography>
                                             </MenuItem>)
                                         }
                                     )}
@@ -120,12 +126,20 @@ function App() {
                             <MenuItem key={'login'} onClick={() => keycloak.login()}>
                                 <Typography textAlign="center">Login</Typography>
                             </MenuItem>}
-                        </BrowserRouter>
+                            <Routes>
+                                <Route path="/products" element={<Products/>}></Route>
+                                <Route path="/blog" element={<Blog/>}></Route>
+                                <Route path="/pricing" element={<Pricing/>}></Route>
+                                <Route exact path="/" element={<div> HOME</div>}>
+                                </Route>
+                            </Routes>
 
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+        </BrowserRouter>
+
     );
 }
 
