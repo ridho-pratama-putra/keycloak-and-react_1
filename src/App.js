@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState } from "react";
+import React, {useState} from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -20,7 +20,7 @@ import {
     , Route
 } from "react-router-dom";
 import {capitalFirstLetter, equalsIgnoreCase} from "./utils/Strings";
-import { useKeycloak } from '@react-keycloak/web'
+import {useKeycloak} from '@react-keycloak/web'
 import Products from './components/Products/products'
 import Blog from './components/Blog/blog'
 import Pricing from './components/Pricing/pricing'
@@ -92,7 +92,6 @@ function App() {
                                 }}>{capitalFirstLetter(page)}</Button>
                             ))}
                         </Box>
-
                         <Box sx={{flexGrow: 0}}>
                             {keycloak && keycloak.authenticated &&
                             <>
@@ -106,6 +105,9 @@ function App() {
                                       transformOrigin={{vertical: 'top', horizontal: 'right',}}
                                       open={Boolean(anchorElUser)}
                                       onClose={handleCloseUserMenu}>
+
+                                    <MenuItem key={'preferred_username'} disabled={true}>
+                                        <Typography textAlign="center">Hi!, {keycloak.tokenParsed.preferred_username} </Typography></MenuItem>
                                     {settings.map((setting) => {
                                             if (equalsIgnoreCase(setting, 'Logout')) {
                                                 return (<MenuItem key={setting} onClick={() => keycloak.logout()}>
@@ -115,8 +117,7 @@ function App() {
                                             }
                                             return (<MenuItem key={setting} component={Link}
                                                               to={`/${setting}`}>
-                                                <Typography
-                                                    textAlign="center">{capitalFirstLetter(setting)}</Typography>
+                                                <Typography textAlign="center">{capitalFirstLetter(setting)}</Typography>
                                             </MenuItem>)
                                         }
                                     )}
@@ -126,18 +127,17 @@ function App() {
                             <MenuItem key={'login'} onClick={() => keycloak.login()}>
                                 <Typography textAlign="center">Login</Typography>
                             </MenuItem>}
-                            <Routes>
-                                <Route path="/products" element={<Products/>}></Route>
-                                <Route path="/blog" element={<Blog/>}></Route>
-                                <Route path="/pricing" element={<Pricing/>}></Route>
-                                <Route exact path="/" element={<div> HOME</div>}>
-                                </Route>
-                            </Routes>
-
                         </Box>
                     </Toolbar>
                 </Container>
             </AppBar>
+            <Routes>
+                <Route path="/products" element={<Products/>}></Route>
+                <Route path="/blog" element={<Blog/>}></Route>
+                <Route path="/pricing" element={<Pricing/>}></Route>
+                <Route exact path="/" element={<div> HOME</div>}>
+                </Route>
+            </Routes>
         </BrowserRouter>
 
     );

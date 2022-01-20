@@ -2,7 +2,7 @@ import React from 'react';
 
 const Pricing = () => {
     return (
-        <div>Pricings</div>
+        <div>Pricinssssgs</div>
     );
 };
 
