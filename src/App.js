@@ -19,9 +19,10 @@ import {
     BrowserRouter
     , Link
 } from "react-router-dom";
+import { capitalFirstLetter , equalsIgnoreCase} from "./utils/Strings";
 
-const pages = ['Home', 'Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['home', 'products', 'pricing', 'blog'];
+const settings = ['profile', 'account', 'dashboard', 'logout'];
 
 function App() {
 
@@ -67,8 +68,8 @@ function App() {
                                 <BrowserRouter>
                                     {pages.map((page) => (
                                         <MenuItem key={page} onClick={handleCloseNavMenu} component={Link}
-                                                  to={`/${page === 'Home' ? '' : page.toLocaleLowerCase()}`}>
-                                            <Typography textAlign="center">{page}</Typography>
+                                                  to={`/${equalsIgnoreCase(page,'Home') ? '' : page}`}>
+                                            <Typography textAlign="center">{capitalFirstLetter(page)}</Typography>
                                         </MenuItem>
                                     ))}
                                 </BrowserRouter>
@@ -79,8 +80,8 @@ function App() {
                         <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                             <BrowserRouter>
                                 {pages.map((page) => (
-                                    <Button component={Link} to={`/${page === 'Home' ? '' : page.toLocaleLowerCase()}`}
-                                            key={page} sx={{my: 2, color: 'white', display: 'block'}}>{page}</Button>
+                                    <Button component={Link} to={`/${equalsIgnoreCase(page,'Home') ? '' : page}`}
+                                            key={page} sx={{my: 2, color: 'white', display: 'block'}}>{capitalFirstLetter(page)}</Button>
                                 ))}
                             </BrowserRouter>
                         </Box>
@@ -97,14 +98,14 @@ function App() {
                                   onClose={handleCloseUserMenu}>
                                 <BrowserRouter>
                                     {settings.map((setting) => {
-                                            if (setting === 'Logout') {
+                                            if (equalsIgnoreCase(setting,'Logout')) {
                                                 return (<MenuItem key={setting} onClick={handleCloseNavMenu}>
-                                                    <Typography textAlign="center">{setting}</Typography>
+                                                    <Typography textAlign="center">{capitalFirstLetter(setting)}</Typography>
                                                 </MenuItem>)
                                             }
                                             return (<MenuItem key={setting} component={Link}
-                                                              to={`/${setting.toLocaleLowerCase()}`}>
-                                                <Typography textAlign="center">{setting}</Typography>
+                                                              to={`/${setting}`}>
+                                                <Typography textAlign="center">{capitalFirstLetter(setting)}</Typography>
                                             </MenuItem>)
                                         }
                                     )}
