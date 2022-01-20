@@ -3,8 +3,6 @@ import './App.css';
 import { ReactKeycloakProvider } from "@react-keycloak/web";
 import React from "react";
 import keycloak from './configs/keycloak'
-// import store from "./store";
-import { useDispatch } from 'react-redux'
 
 function App() {
     return (
