@@ -1,10 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-import {ReactKeycloakProvider} from "@react-keycloak/web";
+import { ReactKeycloakProvider } from "@react-keycloak/web";
 import React from "react";
 import keycloak from './configs/keycloak'
+// import store from "./store";
+import { useDispatch } from 'react-redux'
 
 function App() {
+    const dispatch = useDispatch();
+    dispatch({ type: 'todos/todoAdded', payload: 'Learn about stores inside app' })
+    console.log('appp rendered')
     return (
         <ReactKeycloakProvider authClient={keycloak}>
             <div className="App">
@@ -18,7 +23,7 @@ function App() {
                         // href="https://reactjs.org"
                         // target="_blank"
                         rel="noopener noreferrer"
-                        onClick={keycloak.login}
+                        // onClick={keycloak.login}
                     >
                         Learn React
                     </a>

@@ -28,7 +28,7 @@ export default function todosReducer(state = initialState, action) {
                     }
                     // We've found the todo that has to change. Return a copy:
                     return {
-                        ... todo,
+                        ...todo,
                         // Flip the completed flag
                         completed: !todo.completed
                     }

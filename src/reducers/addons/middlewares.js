@@ -20,12 +20,13 @@ export const print3 = (storeAPI) => (next) => (action) => {
     return next(action)
 }
 
+// this middleware run twice when dispatch added on inside of the app
 export const delayedMessageMiddleware = (storeAPI) => next => dispatchedAction => {
     const { action: { type } } = dispatchedAction;
     if (type === "todos/todoAdded") {
-        setTimeout(() => {
-            console.log('Added a new todo: ', dispatchedAction.action.payload)
-        }, 1000)
+        // setTimeout(() => {
+        //     console.log('Added a new todo: ', dispatchedAction.action.payload)
+        // }, 1000)
     }
 
     return next(dispatchedAction)

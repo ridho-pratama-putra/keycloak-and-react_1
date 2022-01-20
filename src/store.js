@@ -1,13 +1,16 @@
-import { createStore, compose, applyMiddleware} from 'redux'
+import { createStore
+    , compose
+    // , applyMiddleware
+} from 'redux'
 import rootReducer from './reducer'
 import {
     sayHiOnDispatch,
-    includeMeaningOfLife
+    // includeMeaningOfLife
 } from './reducers/addons/enhancers';
-import { print3, delayedMessageMiddleware } from './reducers/addons/middlewares'
+// import {print3, print1} from './reducers/addons/middlewares'
 
-const middlewareEnhancer = applyMiddleware(print3, delayedMessageMiddleware)
+// const middlewareEnhancer = applyMiddleware(print1,print3)
 
-const store = createStore(rootReducer, compose(sayHiOnDispatch, includeMeaningOfLife, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), middlewareEnhancer))
+const store = createStore(rootReducer, compose(sayHiOnDispatch, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()))
 
 export default store
