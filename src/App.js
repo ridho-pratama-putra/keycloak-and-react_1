@@ -7,9 +7,6 @@ import keycloak from './configs/keycloak'
 import { useDispatch } from 'react-redux'
 
 function App() {
-    const dispatch = useDispatch();
-    dispatch({ type: 'todos/todoAdded', payload: 'Learn about stores inside app' })
-    console.log('appp rendered')
     return (
         <ReactKeycloakProvider authClient={keycloak}>
             <div className="App">
