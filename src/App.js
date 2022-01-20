@@ -48,6 +48,8 @@ function App() {
         setAnchorElUser(null);
     };
 
+    console.log('this is access token: ', keycloak.token);
+
     return (
         <BrowserRouter>
 

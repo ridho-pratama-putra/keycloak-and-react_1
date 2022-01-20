@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import store from './store'
-import { ReactKeycloakProvider } from "@react-keycloak/web";
+import {ReactKeycloakProvider} from "@react-keycloak/web";
 import keycloak from './configs/keycloak';
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <ReactKeycloakProvider authClient={keycloak}>
+            <ReactKeycloakProvider authClient={keycloak}
+                                   initOptions={{
+                                       silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
+                                   }}>
                 <App/>
             </ReactKeycloakProvider>
         </Provider>
