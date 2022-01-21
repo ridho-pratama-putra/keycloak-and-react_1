@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
 import store from './store'
 import {ReactKeycloakProvider} from "@react-keycloak/web";
-import keycloak from './configs/keycloak';
+import keycloak from './configs/Keycloak';
 
 ReactDOM.render(
     <React.StrictMode>

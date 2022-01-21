@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import todosReducer from './reducers/todosSlice'
-import filtersReducer from './reducers/filtersSlice'
+import todosReducer from './reducers/TodosSlice'
+import filtersReducer from './reducers/FiltersSlice'
 
 // Use the empty object as a default value
 const rootReducer = combineReducers({

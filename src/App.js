@@ -21,9 +21,9 @@ import {
 } from "react-router-dom";
 import {capitalFirstLetter, equalsIgnoreCase} from "./utils/Strings";
 import {useKeycloak} from '@react-keycloak/web'
-import Products from './components/Products/products'
-import Blog from './components/Blog/blog'
-import Pricing from './components/Pricing/pricing'
+import Products from './components/Products/Products'
+import Blog from './components/Blog/Blog'
+import Pricing from './components/Pricing/Pricing'
 
 function App() {
 
@@ -47,8 +47,6 @@ function App() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
-    console.log('this is access token: ', keycloak.token);
 
     return (
         <BrowserRouter>
