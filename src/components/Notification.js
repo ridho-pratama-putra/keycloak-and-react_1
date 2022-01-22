@@ -7,6 +7,10 @@ import {NOTIFICATION} from "../constant";
 export default function Notification () {
   const dispatch = useDispatch();
   const handleOnClose = (event, reason) => {
+
+    if (reason === 'clickaway') {
+      return;
+    }
     const action = { type: NOTIFICATION.CLOSE_NOTIFICATION };
     dispatch(action);
   };
