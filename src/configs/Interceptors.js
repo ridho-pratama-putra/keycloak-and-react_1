@@ -20,7 +20,6 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     (res) => {
-        console.log('tidak ada response salah :: ', res);
         return res;
     },
     async (err) => {

@@ -1,20 +1,20 @@
 import * as api from '../api/Blog';
+import {NOTIFICATION, PROGRESS} from "../constant";
+import {catchNetworkResponse} from "../utils/Network";
 
 export const getBlog = () => {
-    // const progressAction = {type: 'IN_PROGRESS'};
-    // dispatch(progressAction);
     return async (dispatch) => {
-        const progressAction = {type: 'IN_PROGRESS'};
+        const progressAction = {type: PROGRESS.IN_PROGRESS};
         dispatch(progressAction);
         try {
             await api.getBlog().then(res => {
-                // dispatch({type: 'NOTIFICATION_SUCCESS', message:res.data.status.description})
-                console.log('sukses ih :', res)
+                setTimeout(() => {
+                    dispatch({type: PROGRESS.IN_PROGRESS_DONE});
+                    dispatch({type: NOTIFICATION.NOTIFICATION_SUCCESS, message:res.data})
+                }, 100);
             })
-            console.log('sukses ih :')
-
         } catch (e) {
-            console.log('kena catsh ih : ', e)
+            catchNetworkResponse(e, dispatch)
         }
     }
 }

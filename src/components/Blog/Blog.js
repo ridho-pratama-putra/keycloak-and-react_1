@@ -1,6 +1,8 @@
 import React from 'react';
 import { getBlog } from "../../action/Blog";
 import {useDispatch} from "react-redux";
+import Progress from "../Progress";
+import Notification from "../Notification";
 
 const Blog = () => {
     const dispatch = useDispatch();
@@ -9,7 +11,11 @@ const Blog = () => {
         dispatch(doGetBlog);
     }
     return (
-        <div><button onClick={() => getBlogFromClick()}>CLick</button></div>
+        <div>
+            <Progress/>
+            <Notification/>
+            <button onClick={() => getBlogFromClick()}>CLick</button>
+        </div>
     );
 };
 
