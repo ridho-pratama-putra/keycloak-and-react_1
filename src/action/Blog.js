@@ -10,7 +10,7 @@ export const getBlog = () => {
             await api.getBlog().then(res => {
                 setTimeout(() => {
                     dispatch({type: PROGRESS.IN_PROGRESS_DONE});
-                    dispatch({type: NOTIFICATION.NOTIFICATION_SUCCESS, message:res.data})
+                    dispatch({type: NOTIFICATION.NOTIFICATION_SUCCESS, message:res.data.status.description})
                 }, 100);
             })
         } catch (e) {
