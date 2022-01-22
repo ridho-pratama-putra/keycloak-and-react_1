@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import todosReducer from './reducers/TodosSlice'
-import filtersReducer from './reducers/FiltersSlice'
-import progress from './reducers/Progress'
-import notification from './reducers/Notification'
+import todosReducer from './TodosSlice'
+import filtersReducer from './FiltersSlice'
+import progress from './Progress'
+import notification from './Notification'
 
 // Use the empty object as a default value
 const rootReducer = combineReducers({
