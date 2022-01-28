@@ -24,6 +24,7 @@ export default function Notification () {
       open={isOpen}
       onClose={handleOnClose}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      autoHideDuration={4000}
     >
       <Alert severity={type} onClose={handleOnClose}>
         {message}
