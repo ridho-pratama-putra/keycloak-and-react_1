@@ -1,11 +1,11 @@
-import React, {PropTypes, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import Box from "@mui/material/Box";
 import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
 import PriceInput from "../Common/PriceInput";
 import FormGroup from "@mui/material/FormGroup";
 import Button from "@mui/material/Button";
 
-const FormAddProduct = (props) => {
+const FormAddProduct = () => {
     const referenceForms = useRef();
     const [buyPrice, setBuyPrice] = useState('');
 
@@ -46,9 +46,5 @@ const FormAddProduct = (props) => {
         </div>
     );
 };
-
-FormAddProduct.propTypes = {};
-
-FormAddProduct.defaultProps = {};
 
 export default FormAddProduct;
