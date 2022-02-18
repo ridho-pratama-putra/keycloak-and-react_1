@@ -4,14 +4,34 @@ import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
 import PriceInput from "../Common/PriceInput";
 import FormGroup from "@mui/material/FormGroup";
 import Button from "@mui/material/Button";
+import {useDispatch} from "react-redux";
+import {createProduct} from "../../action/Product";
 
 const FormAddProduct = () => {
     const referenceForms = useRef();
-    const [buyPrice, setBuyPrice] = useState('');
+    const [description, setDescription] = useState('');
+    const [sellPrice, setSellPrice] = useState('');
+    const [barcode, setBarcode] = useState('');
+    const [stockAvailable, setStockAvailable] = useState('');
+    const dispatch = useDispatch();
 
     const clearForm = () => {
         referenceForms.current.resetValidations();
-        setBuyPrice('');
+        setDescription('');
+        setSellPrice('');
+        setBarcode('');
+        setStockAvailable('');
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const createProductAction = createProduct({
+            description,
+            sellPrice,
+            barcode,
+            stockAvailable
+        });
+        dispatch(createProductAction);
     };
 
     return (
@@ -23,23 +43,50 @@ const FormAddProduct = () => {
                 <ValidatorForm
                     ref={referenceForms}
                     component='form'
-                    onSubmit={()=>{}}
+                    onSubmit={handleSubmit}
                 >
                     <FormGroup>
 
                         <TextValidator
-                            label='Offline Sell price*'
+                            label='Description*'
+                            validators={['required']}
+                            errorMessages={['required']}
+                            onChange={(event) => setDescription(event.target.value)}
+                            value={description}
+                            sx={{marginTop: '10px'}}
+                        />
+                        <TextValidator
+                            label='Sell price*'
                             validators={['required', 'minNumber:0']}
                             errorMessages={['required', 'minimum 0']}
                             InputProps={{
                                 inputComponent: PriceInput,
                             }}
-                            onChange={(event) => setBuyPrice(event.target.value)}
-                            value={buyPrice}
+                            onChange={(event) => setSellPrice(event.target.value)}
+                            value={sellPrice}
+                            sx={{marginTop: '10px'}}
+
+                        />
+                        <TextValidator
+                            label='Barcode*'
+                            validators={['required']}
+                            errorMessages={['required']}
+                            onChange={(event) => setBarcode(event.target.value)}
+                            value={barcode}
+                            sx={{marginTop: '10px'}}
+
+                        />
+                        <TextValidator
+                            label='Stock Available*'
+                            validators={['required']}
+                            errorMessages={['required']}
+                            onChange={(event) => setStockAvailable(event.target.value)}
+                            value={stockAvailable}
+                            sx={{marginTop: '10px'}}
 
                         />
                         <Button color='primary' type='submit'>Submit</Button>
-                        <Button variant='contained' onClick={ () => clearForm() } >Reset form</Button>
+                        <Button variant='contained' onClick={() => clearForm()}>Reset form</Button>
                     </FormGroup>
                 </ValidatorForm>
             </Box>
