@@ -3,6 +3,7 @@ import todosReducer from './TodosSlice'
 import filtersReducer from './FiltersSlice'
 import progress from './Progress'
 import notification from './Notification'
+import products from './Products'
 
 // Use the empty object as a default value
 const rootReducer = combineReducers({
@@ -10,7 +11,8 @@ const rootReducer = combineReducers({
     todos: todosReducer,
     filters: filtersReducer,
     progress: progress,
-    notification: notification
+    notification: notification,
+    products: products,
 })
 
 export default rootReducer;

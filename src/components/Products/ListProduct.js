@@ -1,16 +1,30 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Box from "@mui/material/Box";
 import NumberFormat from 'react-number-format';
 import Card from "@mui/material/Card";
 import MUIDataTable from 'mui-datatables';
 // import { ThemeProvider} from '@mui/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {getProducts} from "../../action/Product";
 
 const ListProduct = (props) => {
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getProducts());
+    }, [dispatch]);
+
+    const dataForTable = useSelector(state => {
+        console.log("state.products :: ", state.products.result)
+        return state.products;
+    });
+
+
     const columns = [
         {
-            name: 'name',
+            name: 'description',
             label: 'Name',
             options: {
                 filter: true,
@@ -22,7 +36,7 @@ const ListProduct = (props) => {
             label: 'Buy Price',
             options: {
                 sort: true,
-                customBodyRender: (value, tableMeta, updateValue) => (
+                customBodyRender: (value) => (
                     <NumberFormat
                         displayType={'text'}
                         value={value}
@@ -34,11 +48,11 @@ const ListProduct = (props) => {
             }
         },
         {
-            name: 'offlineSellPrice',
-            label: 'Offline Price',
+            name: 'sellPrice',
+            label: 'Sell Price',
             options: {
                 sort: true,
-                customBodyRender: (value, tableMeta, updateValue) => (
+                customBodyRender: (value) => (
                     <NumberFormat
                         displayType={'text'}
                         value={value}
@@ -50,23 +64,14 @@ const ListProduct = (props) => {
             }
         },
         {
-            name: 'onlineSellPrice',
-            label: 'Online Price',
+            name: 'barcode',
+            label: 'Barcode',
             options: {
                 sort: true,
-                customBodyRender: (value, tableMeta, updateValue) => (
-                    <NumberFormat
-                        displayType={'text'}
-                        value={value}
-                        thousandSeparator={true}
-                        isNumericString={true}
-                        prefix={'Rp. '}
-                    />
-                )
             }
         },
         {
-            name: 'productQuantity',
+            name: 'stockAvailable',
             label: 'Quantity',
             options: {
                 sort: true
@@ -85,13 +90,13 @@ const ListProduct = (props) => {
             }
         });
 
-    const dataForTable = [{
-        productQuantity: 4,
-        name: 'stock',
-        buyPrice: '50000',
-        offlineSellPrice: '400000',
-        onlineSellPrice: '3000'
-    }];
+    // const dataForTable = [{
+    //     productQuantity: 4,
+    //     name: 'stock',
+    //     buyPrice: '50000',
+    //     offlineSellPrice: '400000',
+    //     onlineSellPrice: '3000'
+    // }];
 
 
     return (
