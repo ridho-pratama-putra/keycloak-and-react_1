@@ -16,6 +16,7 @@ export const createProduct = product => {
         } catch (e) {
             catchNetworkResponse(e, dispatch)
         }
+        dispatch(getProducts());
     }
 }
 

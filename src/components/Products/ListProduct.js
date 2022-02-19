@@ -4,20 +4,25 @@ import Box from "@mui/material/Box";
 import NumberFormat from 'react-number-format';
 import Card from "@mui/material/Card";
 import MUIDataTable from 'mui-datatables';
-// import { ThemeProvider} from '@mui/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {getProducts} from "../../action/Product";
+import {useKeycloak} from "@react-keycloak/web";
+import {PROGRESS} from "../../constant";
 
 const ListProduct = (props) => {
 
     const dispatch = useDispatch();
+    const keycloak = useKeycloak();
 
     useEffect(() => {
-        dispatch(getProducts());
-    }, [dispatch]);
+        console.log('USE EFFECT')
+            dispatch({type: PROGRESS.IN_PROGRESS});
+            if (keycloak.initialized) {
+                dispatch(getProducts());
+            }
+    }, [keycloak.initialized]);
 
     const dataForTable = useSelector(state => {
-        console.log("state.products :: ", state.products.result)
         return state.products;
     });
 
