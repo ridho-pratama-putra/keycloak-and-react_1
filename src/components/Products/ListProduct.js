@@ -1,31 +1,31 @@
-import React,{useEffect} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import Box from "@mui/material/Box";
 import NumberFormat from 'react-number-format';
 import Card from "@mui/material/Card";
 import MUIDataTable from 'mui-datatables';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {getProducts} from "../../action/Product";
 import {useKeycloak} from "@react-keycloak/web";
 import {PROGRESS} from "../../constant";
+import { useNavigate } from 'react-router-dom';
 
 const ListProduct = (props) => {
 
     const dispatch = useDispatch();
     const keycloak = useKeycloak();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        console.log('USE EFFECT')
-            dispatch({type: PROGRESS.IN_PROGRESS});
-            if (keycloak.initialized) {
-                dispatch(getProducts());
-            }
-    }, [keycloak.initialized]);
+        dispatch({type: PROGRESS.IN_PROGRESS});
+        if (keycloak.initialized) {
+            dispatch(getProducts());
+        }
+    }, [keycloak.initialized, dispatch]);
 
     const dataForTable = useSelector(state => {
         return state.products;
     });
-
 
     const columns = [
         {
@@ -34,22 +34,6 @@ const ListProduct = (props) => {
             options: {
                 filter: true,
                 sort: true
-            }
-        },
-        {
-            name: 'buyPrice',
-            label: 'Buy Price',
-            options: {
-                sort: true,
-                customBodyRender: (value) => (
-                    <NumberFormat
-                        displayType={'text'}
-                        value={value}
-                        thousandSeparator={true}
-                        isNumericString={true}
-                        prefix={'Rp. '}
-                    />
-                )
             }
         },
         {
@@ -81,7 +65,7 @@ const ListProduct = (props) => {
             options: {
                 sort: true
             }
-        }
+        },
     ];
 
     const getMuiTheme = () =>
@@ -116,7 +100,9 @@ const ListProduct = (props) => {
                             data={dataForTable}
                             columns={columns}
                             options={{
-                                selectableRows: 'none' // <===== will turn off checkboxes in rows
+                                onRowClick: (rowData, f, g) => navigate(`/products/detail/${rowData[2]}`),
+                                selectableRows: 'single',
+                                // selectableRowsOnClick: true,
                             }}
                         />
                     </ThemeProvider>

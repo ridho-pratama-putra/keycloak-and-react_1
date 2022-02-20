@@ -1,5 +1,5 @@
 import * as api from '../api/Product';
-import {NOTIFICATION, PROGRESS} from "../constant";
+import {NOTIFICATION, PRODUCT, PROGRESS} from "../constant";
 import {catchNetworkResponse} from "../utils/Network";
 
 export const createProduct = product => {
@@ -33,6 +33,27 @@ export const getProducts = () => async (dispatch) => {
         });
 
         const action = { type: 'FETCH_ALL_PRODUCTS', payload: data.result };
+        dispatch(action);
+        const progressAction = { type: 'IN_PROGRESS_DONE' };
+        dispatch(progressAction);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getProductsByBarcode = barcode => async (dispatch) => {
+    try {
+        dispatch({ type: 'IN_PROGRESS' });
+        const {data} = await api.getProductsByBarcode(barcode).catch(() => {
+            setTimeout(() => {
+                const progressAction = { type: 'IN_PROGRESS_DONE' };
+                dispatch(progressAction);
+                const notificationAction = { type: 'NOTIFICATION_TIMEOUT', message: 'Backend down', notificationType: 'error' };
+                dispatch(notificationAction);
+            }, 3000);
+        });
+
+        const action = { type: PRODUCT.CURRENT_PRODUCT, payload: data.result };
         dispatch(action);
         const progressAction = { type: 'IN_PROGRESS_DONE' };
         dispatch(progressAction);

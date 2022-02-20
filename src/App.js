@@ -13,17 +13,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {
-    BrowserRouter
-    , Link
-    , Routes
-    , Route
-} from "react-router-dom";
+import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import {capitalFirstLetter, equalsIgnoreCase} from "./utils/Strings";
 import {useKeycloak} from '@react-keycloak/web'
 import Products from './components/Products/Products'
 import Blog from './components/Blog/Blog'
 import Pricing from './components/Pricing/Pricing'
+import ProductDetail from "./components/Products/ProductDetail";
 
 function App() {
 
@@ -107,7 +103,8 @@ function App() {
                                       onClose={handleCloseUserMenu}>
 
                                     <MenuItem key={'preferred_username'} disabled={true}>
-                                        <Typography textAlign="center">Hi!, {keycloak.tokenParsed.preferred_username} </Typography></MenuItem>
+                                        <Typography
+                                            textAlign="center">Hi!, {keycloak.tokenParsed.preferred_username} </Typography></MenuItem>
                                     {settings.map((setting) => {
                                             if (equalsIgnoreCase(setting, 'Logout')) {
                                                 return (<MenuItem key={setting} onClick={() => keycloak.logout()}>
@@ -133,6 +130,7 @@ function App() {
             </AppBar>
             <Routes>
                 <Route path="/products" element={<Products/>}></Route>
+                <Route path="/products/detail/:barcode" element={<ProductDetail/>}/>
                 <Route path="/blog" element={<Blog/>}></Route>
                 <Route path="/pricing" element={<Pricing/>}></Route>
                 <Route exact path="/" element={<div> HOME</div>}>

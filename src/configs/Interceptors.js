@@ -1,12 +1,7 @@
 import axios from 'axios';
 import keycloak from './Keycloak';
 
-const instance = axios.create({
-    baseURL: "http://localhost:8082",
-    headers: {
-        "Content-Type": "application/json",
-    },method: 'POST'
-});
+const instance = axios.create();
 
 instance.interceptors.request.use(
     (config) => {
