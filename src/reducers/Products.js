@@ -8,6 +8,9 @@ export default (state = [], action) => {
             return action.payload;
         case PRODUCT.CURRENT_PRODUCT:
             return action.payload;
+        case PRODUCT.ON_CURRENT_PRODUCT_CHANGED:
+            const updatedProduct = {...state[0], [action.payload.key]: action.payload.value};
+            return [updatedProduct];
         default:
             return state;
     }

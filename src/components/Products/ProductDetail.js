@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useParams} from "react-router";
-import {PROGRESS} from "../../constant";
+import {PRODUCT, PROGRESS} from "../../constant";
 import {createProduct, getProductsByBarcode} from "../../action/Product";
 import {useKeycloak} from "@react-keycloak/web";
 import {useDispatch, useSelector} from "react-redux";
@@ -20,49 +20,40 @@ const ProductDetail = (props) => {
         return state.products;
     });
 
-    const [description, setDescription] = useState(currentProduct[0]?.description);
-    const [sellPrice, setSellPrice] = useState(currentProduct[0]?.sellPrice);
-    const [barcodeValue, setBarcode] = useState(barcode);
-    const [stockAvailable, setStockAvailable] = useState('');
-
     useEffect(() => {
         dispatch({type: PROGRESS.IN_PROGRESS});
         if (keycloak.initialized) {
             dispatch(getProductsByBarcode(barcode));
-            setDescription(currentProduct[0]?.description)
-            setSellPrice(currentProduct[0]?.sellPrice)
-            setStockAvailable(currentProduct[0]?.stockAvailable)
         }
-    }, [dispatch, keycloak.initialized, barcode, currentProduct]);
+    }, [dispatch, keycloak.initialized, barcode]);
     const referenceForms = useRef();
 
-
+    const handleOnChange= (key, value) => {
+        dispatch({type: PRODUCT.ON_CURRENT_PRODUCT_CHANGED, payload: {key: key.id, value: value}});
+    }
 
 
     const clearForm = () => {
         referenceForms.current.resetValidations();
-        setDescription('');
-        setSellPrice('');
-        setBarcode('');
-        setStockAvailable('');
+        // setDescription('');
+        // setSellPrice('');
+        // setBarcode('');
+        // setStockAvailable('');
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const createProductAction = createProduct({
-            description: description,
-            sellPrice: sellPrice,
-            barcode: barcodeValue,
-            stockAvailable: stockAvailable
+            // description: description,
+            // sellPrice: sellPrice,
+            // barcode: barcodeValue,
+            // stockAvailable: stockAvailable
         });
         dispatch(createProductAction);
     };
 
     return (
         <div>
-            {
-                console.log('render  : ', description, currentProduct[0]?.description)
-            }
             <Card variant='outlined'>
                 <Box sx={{
                     marginTop: '30px',
@@ -83,8 +74,10 @@ const ProductDetail = (props) => {
                                     label='Description*'
                                     validators={['required']}
                                     errorMessages={['required']}
-                                    onChange={(event) => setDescription(event.target.value)}
-                                    value={description}
+                                    onChange={(event) => handleOnChange(event.target)}
+                                    value={currentProduct[0]?.description? currentProduct[0]?.description: ''}
+                                    id={'description'}
+                                    key={'descriptionKey'}
                                     sx={{
                                         width: '50ch',
                                         marginTop: '10px',
@@ -97,8 +90,8 @@ const ProductDetail = (props) => {
                                     InputProps={{
                                         inputComponent: PriceInput,
                                     }}
-                                    onChange={(event) => setSellPrice(event.target.value)}
-                                    value={sellPrice}
+                                    onChange={(event) => handleOnChange(event.target)}
+                                    value={currentProduct[0]?.sellPrice?currentProduct[0]?.sellPrice:''}
                                     sx={{
                                         width: '50ch',
                                         marginTop: '10px',
@@ -113,8 +106,8 @@ const ProductDetail = (props) => {
                                     label='Barcode*'
                                     validators={['required']}
                                     errorMessages={['required']}
-                                    onChange={(event) => setBarcode(event.target.value)}
-                                    value={barcode}
+                                    onChange={(event) => handleOnChange(event.target)}
+                                    value={currentProduct[0]?.barcode?currentProduct[0]?.barcode:''}
                                     disabled
                                     sx={{
                                         marginTop: '10px',
@@ -127,8 +120,8 @@ const ProductDetail = (props) => {
                                     label='Stock Available*'
                                     validators={['required']}
                                     errorMessages={['required']}
-                                    onChange={(event) => setStockAvailable(event.target.value)}
-                                    value={stockAvailable}
+                                    onChange={(event) => handleOnChange(event.target.value)}
+                                    value={currentProduct[0]?.stockAvailable?currentProduct[0]?.stockAvailable:''}
                                     sx={{
                                         marginTop: '10px',
                                         width: '50ch',
